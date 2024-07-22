@@ -89,8 +89,32 @@ async def post_device(request):
     except Exception as e:
         return web.json_response({'error': 'Failed to create device: {}'.format(str(e))}, status=500)
 
+
+async def get_all_devices(request):
+    try:
+        devices = Device.select()
+        devices_list = [
+            {
+                'id': device.id,
+                'name': device.name,
+                'device_type': device.device_type,
+                'login': device.login,
+                'password': device.password,
+                'location_id': device.location.id,
+                'api_user_id': device.api_user.id
+            } for device in devices
+        ]
+
+        return web.json_response(devices_list)
+
+    except Exception as e:
+        return web.json_response({'error': 'Failed to retrieve devices'}, status=500)
+
 app.router.add_get('/', hello)
+
 app.router.add_post('/devices/', post_device)
+app.router.add_get('/devices/', get_all_devices)
+
 
 if __name__ == '__main__':
     db.connect()
