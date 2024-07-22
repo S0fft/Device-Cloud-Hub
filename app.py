@@ -45,6 +45,18 @@ class Device(Model):
         database = db
         table_name = 'device'
 
+    @staticmethod
+    def current_device_info(device):
+        return web.json_response({
+            'id': device.id,
+            'name': device.name,
+            'device_type': device.device_type,
+            'login': device.login,
+            'password': device.password,
+            'location_id': device.location.id,
+            'api_user_id': device.api_user.id
+        })
+
 
 app = web.Application()
 
@@ -75,14 +87,7 @@ async def post_device(request):
             api_user=data['api_user_id']
         )
 
-        return web.json_response({
-            'id': device.id,
-            'name': device.device_type,
-            "login": device.login,
-            "password": device.password,
-            "location_id": device.location_id,
-            "api_user_id": device.api_user_id
-        })
+        return Device.current_device_info(device)
 
     except ValueError as e:
         return web.json_response({'error': str(e)}, status=400)
@@ -117,15 +122,7 @@ async def get_device_by_id(request):
     try:
         device = Device.get(Device.id == device_id)
 
-        return web.json_response({
-            'id': device.id,
-            'name': device.name,
-            'device_type': device.device_type,
-            'login': device.login,
-            'password': device.password,
-            'location_id': device.location.id,
-            'api_user_id': device.api_user.id
-        })
+        return Device.current_device_info(device)
 
     except Device.DoesNotExist:
         return web.json_response({'error': 'Device not found'}, status=404)
