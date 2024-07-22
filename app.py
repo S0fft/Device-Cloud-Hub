@@ -47,3 +47,13 @@ class Device(Model):
 
 
 app = web.Application()
+
+
+async def hello(request):
+    return web.Response(text="Server is running!")
+
+app.router.add_get('/', hello)
+
+if __name__ == '__main__':
+    db.connect()
+    web.run_app(app, host='127.0.0.1', port=8080)
