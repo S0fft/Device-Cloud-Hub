@@ -110,10 +110,32 @@ async def get_all_devices(request):
     except Exception as e:
         return web.json_response({'error': 'Failed to retrieve devices'}, status=500)
 
+
+async def get_device_by_id(request):
+    device_id = request.match_info.get('id')
+
+    try:
+        device = Device.get(Device.id == device_id)
+
+        return web.json_response({
+            'id': device.id,
+            'name': device.name,
+            'device_type': device.device_type,
+            'login': device.login,
+            'password': device.password,
+            'location_id': device.location.id,
+            'api_user_id': device.api_user.id
+        })
+
+    except Device.DoesNotExist:
+        return web.json_response({'error': 'Device not found'}, status=404)
+
+
 app.router.add_get('/', hello)
 
 app.router.add_post('/devices/', post_device)
 app.router.add_get('/devices/', get_all_devices)
+app.router.add_get('/devices/{id}/', get_device_by_id)
 
 
 if __name__ == '__main__':
