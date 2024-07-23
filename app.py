@@ -133,7 +133,7 @@ async def get_device_by_id(request):
         return web.json_response({'error': 'Device not found'}, status=404)
 
 
-# PUT (MAJOR-UPDATE)
+# PUT by ID (major-UPDATE)
 async def put_device_by_id(request):
     device_id = request.match_info.get('id')
     data = await request.json()
@@ -172,7 +172,7 @@ async def put_device_by_id(request):
         return web.json_response({'error': 'Failed to update device'}, status=500)
 
 
-# PATCH by ID (MINOR-UPDATE)
+# PATCH by ID (minor-UPDATE)
 async def patch_device_by_id(request):
     device_id = request.match_info.get('id')
     data = await request.json()
@@ -230,6 +230,7 @@ app.router.add_get('/devices/', get_all_devices)
 app.router.add_get('/devices/{id}/', get_device_by_id)
 app.router.add_put('/devices/{id}/', put_device_by_id)
 app.router.add_patch('/devices/{id}/', patch_device_by_id)
+
 
 # RUN
 if __name__ == '__main__':
