@@ -64,7 +64,7 @@ app = web.Application()
 
 # TEST
 async def hello(request):
-    return web.Response(text="Server is running!")
+    return web.Response(text='Server is running!')
 
 
 # POST (CREATE)
