@@ -133,14 +133,54 @@ async def get_device_by_id(request):
         return web.json_response({'error': 'Device not found'}, status=404)
 
 
+# PUT (MAJOR-UPDATE)
+async def put_device_by_id(request):
+    device_id = request.match_info.get('id')
+    data = await request.json()
+
+    try:
+        if not all(key in data for key in ['name', 'device_type', 'login', 'password', 'location_id', 'api_user_id']):
+            raise ValueError('Missing required fields')
+
+        if not Location.select().where(Location.id == data['location_id']).exists():
+            raise ValueError('Invalid location_id')
+
+        if not ApiUser.select().where(ApiUser.id == data['api_user_id']).exists():
+            raise ValueError('Invalid api_user_id')
+
+        device_query = Device.update(
+            name=data['name'],
+            device_type=data['device_type'],
+            login=data['login'],
+            password=data['password'],
+            location=data['location_id'],
+            api_user=data['api_user_id']
+        ).where(Device.id == device_id)
+        updated = device_query.execute()
+
+        if updated:
+            updated_device = Device.get(Device.id == device_id)
+
+            return Device.current_device_info(updated_device)
+        else:
+            return web.json_response({'error': 'Device not found'}, status=404)
+
+    except ValueError as e:
+        return web.json_response({'error': str(e)}, status=400)
+
+    except Exception as e:
+        return web.json_response({'error': 'Failed to update device'}, status=500)
+
+
 # ROUTERS
 app.router.add_get('/', hello)
 
 app.router.add_post('/devices/', post_device)
 app.router.add_get('/devices/', get_all_devices)
 app.router.add_get('/devices/{id}/', get_device_by_id)
+app.router.add_put('/devices/{id}/', put_device_by_id)
 
-
+# RUN
 if __name__ == '__main__':
     db.connect()
     web.run_app(app, host='127.0.0.1', port=8080)
