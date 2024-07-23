@@ -1,9 +1,8 @@
 import logging
 import os
-from typing import Any, Dict
 
 from aiohttp import web
-from aiohttp.web import Application, Request, Response
+from aiohttp.web import Response
 from dotenv import load_dotenv
 from peewee import *
 from peewee import CharField, ForeignKeyField, Model, PostgresqlDatabase
