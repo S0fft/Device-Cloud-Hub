@@ -80,10 +80,10 @@ async def post_device(request) -> Response[dict[str, int | str]]:
 
     try:
         if not all(key in data for key in ['name', 'device_type', 'login', 'password', 'location_id', 'api_user_id']):
-            raise ValueError('Missing required fields')
+            raise ValueError('Missing required fields!')
 
         if not Location.select().where(Location.id == data['location_id']).exists():
-            raise ValueError('Invalid location_id')
+            raise ValueError('Invalid location_id!')
 
         if not ApiUser.select().where(ApiUser.id == data['api_user_id']).exists():
             raise ValueError('Invalid api_user_id')
@@ -105,7 +105,7 @@ async def post_device(request) -> Response[dict[str, int | str]]:
 
     except Exception as e:
         logger.error('Failed to create device: %s', str(e))
-        return web.json_response({'error': 'Failed to create device: {}'.format(str(e))}, status=500)
+        return web.json_response({'error': 'Failed to create device: {}!'.format(str(e))}, status=500)
 
 
 # GET ALL (READ)
@@ -131,7 +131,7 @@ async def get_all_devices(request) -> Response[dict[str, int | str]]:
 
     except Exception as e:
         logger.error('Failed to retrieve devices: %s', str(e))
-        return web.json_response({'error': 'Failed to retrieve devices'}, status=500)
+        return web.json_response({'error': 'Failed to retrieve devices!'}, status=500)
 
 
 # GET by ID (READ)
@@ -146,7 +146,7 @@ async def get_device_by_id(request) -> Response[dict[str, int | str]]:
 
     except Device.DoesNotExist:
         logger.warning('Device not found: %s', device_id)
-        return web.json_response({'error': 'Device not found'}, status=404)
+        return web.json_response({'error': 'Device not found!'}, status=404)
 
 
 # PUT by ID (major-UPDATE)
@@ -157,13 +157,13 @@ async def put_device_by_id(request) -> Response[dict[str, int | str]]:
 
     try:
         if not all(key in data for key in ['name', 'device_type', 'login', 'password', 'location_id', 'api_user_id']):
-            raise ValueError('Missing required fields')
+            raise ValueError('Missing required fields!')
 
         if not Location.select().where(Location.id == data['location_id']).exists():
-            raise ValueError('Invalid location_id')
+            raise ValueError('Invalid location_id!')
 
         if not ApiUser.select().where(ApiUser.id == data['api_user_id']).exists():
-            raise ValueError('Invalid api_user_id')
+            raise ValueError('Invalid api_user_id!')
 
         device_query: dict[str, int | str] = Device.update(
             name=data['name'],
@@ -182,7 +182,7 @@ async def put_device_by_id(request) -> Response[dict[str, int | str]]:
             return Device.current_device_info(updated_device)
         else:
             logger.warning('Device not found for update: %s', device_id)
-            return web.json_response({'error': 'Device not found'}, status=404)
+            return web.json_response({'error': 'Device not found!'}, status=404)
 
     except ValueError as e:
         logger.error('Error updating device: %s', str(e))
@@ -190,7 +190,7 @@ async def put_device_by_id(request) -> Response[dict[str, int | str]]:
 
     except Exception as e:
         logger.error('Failed to update device: %s', str(e))
-        return web.json_response({'error': 'Failed to update device'}, status=500)
+        return web.json_response({'error': 'Failed to update device!'}, status=500)
 
 
 # PATCH by ID (minor-UPDATE)
@@ -216,7 +216,7 @@ async def patch_device_by_id(request) -> Response[dict[str, int | str]]:
 
         if 'location_id' in data:
             if not Location.select().where(Location.id == data['location_id']).exists():
-                raise ValueError('Invalid location_id')
+                raise ValueError('Invalid location_id!')
             updates['location'] = data['location_id']
 
         if 'api_user_id' in data:
@@ -226,7 +226,7 @@ async def patch_device_by_id(request) -> Response[dict[str, int | str]]:
 
         if not updates:
             logger.warning('No fields to update for device: %s', device_id)
-            return web.json_response({'error': 'No fields to update'}, status=400)
+            return web.json_response({'error': 'No fields to update!'}, status=400)
 
         query: dict[str, int | str] = Device.update(**updates).where(Device.id == device_id)
         updated = query.execute()
@@ -237,7 +237,7 @@ async def patch_device_by_id(request) -> Response[dict[str, int | str]]:
             return Device.current_device_info(updated_device)
         else:
             logger.warning('Device not found for patching: %s', device_id)
-            return web.json_response({'error': 'Device not found'}, status=404)
+            return web.json_response({'error': 'Device not found!'}, status=404)
 
     except ValueError as e:
         logger.error('Error patching device: %s', str(e))
@@ -245,7 +245,7 @@ async def patch_device_by_id(request) -> Response[dict[str, int | str]]:
 
     except Exception as e:
         logger.error('Failed to patch device: %s', str(e))
-        return web.json_response({'error': 'Failed to patch device'}, status=500)
+        return web.json_response({'error': 'Failed to patch device!'}, status=500)
 
 
 # DELETE by ID
@@ -259,14 +259,14 @@ async def delete_device_by_id(request) -> Response[dict[str, int | str]]:
 
         if deleted:
             logger.info('Device deleted successfully: %s', device_id)
-            return web.json_response({'message': f'Device with id {device_id} was successfully deleted'})
+            return web.json_response({'message': f'Device with id {device_id} was successfully deleted!'})
         else:
             logger.warning('Device not found for deletion: %s', device_id)
-            return web.json_response({'error': 'Device not found'}, status=404)
+            return web.json_response({'error': 'Device not found!'}, status=404)
 
     except Exception as e:
         logger.error('Failed to delete device: %s', str(e))
-        return web.json_response({'error': 'Failed to delete device: {}'.format(str(e))}, status=500)
+        return web.json_response({'error': 'Failed to delete device: {}!'.format(str(e))}, status=500)
 
 
 # ROUTERS
