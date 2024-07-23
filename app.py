@@ -15,6 +15,7 @@ db = PostgresqlDatabase(
 )
 
 
+# MODELS
 class ApiUser(Model):
     name = CharField()
     email = CharField(unique=True)
@@ -61,10 +62,12 @@ class Device(Model):
 app = web.Application()
 
 
+# TEST
 async def hello(request):
     return web.Response(text="Server is running!")
 
 
+# POST (CREATE)
 async def post_device(request):
     data = await request.json()
 
@@ -95,6 +98,7 @@ async def post_device(request):
         return web.json_response({'error': 'Failed to create device: {}'.format(str(e))}, status=500)
 
 
+# GET ALL (READ)
 async def get_all_devices(request):
     try:
         devices = Device.select()
@@ -116,6 +120,7 @@ async def get_all_devices(request):
         return web.json_response({'error': 'Failed to retrieve devices'}, status=500)
 
 
+# GET by ID (READ)
 async def get_device_by_id(request):
     device_id = request.match_info.get('id')
 
@@ -128,6 +133,7 @@ async def get_device_by_id(request):
         return web.json_response({'error': 'Device not found'}, status=404)
 
 
+# ROUTERS
 app.router.add_get('/', hello)
 
 app.router.add_post('/devices/', post_device)
