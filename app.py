@@ -172,6 +172,56 @@ async def put_device_by_id(request):
         return web.json_response({'error': 'Failed to update device'}, status=500)
 
 
+# PATCH by ID (MINOR-UPDATE)
+async def patch_device_by_id(request):
+    device_id = request.match_info.get('id')
+    data = await request.json()
+
+    try:
+        updates = {}
+
+        if 'name' in data:
+            updates['name'] = data['name']
+
+        if 'device_type' in data:
+            updates['device_type'] = data['device_type']
+
+        if 'login' in data:
+            updates['login'] = data['login']
+
+        if 'password' in data:
+            updates['password'] = data['password']
+
+        if 'location_id' in data:
+            if not Location.select().where(Location.id == data['location_id']).exists():
+                raise ValueError('Invalid location_id')
+            updates['location'] = data['location_id']
+
+        if 'api_user_id' in data:
+            if not ApiUser.select().where(ApiUser.id == data['api_user_id']).exists():
+                raise ValueError('Invalid api_user_id')
+            updates['api_user'] = data['api_user_id']
+
+        if not updates:
+            return web.json_response({'error': 'No fields to update'}, status=400)
+
+        query = Device.update(**updates).where(Device.id == device_id)
+        updated = query.execute()
+
+        if updated:
+            updated_device = Device.get(Device.id == device_id)
+
+            return Device.current_device_info(updated_device)
+        else:
+            return web.json_response({'error': 'Device not found'}, status=404)
+
+    except ValueError as e:
+        return web.json_response({'error': str(e)}, status=400)
+
+    except Exception as e:
+        return web.json_response({'error': 'Failed to update device'}, status=500)
+
+
 # ROUTERS
 app.router.add_get('/', hello)
 
@@ -179,6 +229,7 @@ app.router.add_post('/devices/', post_device)
 app.router.add_get('/devices/', get_all_devices)
 app.router.add_get('/devices/{id}/', get_device_by_id)
 app.router.add_put('/devices/{id}/', put_device_by_id)
+app.router.add_patch('/devices/{id}/', patch_device_by_id)
 
 # RUN
 if __name__ == '__main__':
