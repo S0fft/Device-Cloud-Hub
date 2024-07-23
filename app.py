@@ -222,6 +222,23 @@ async def patch_device_by_id(request):
         return web.json_response({'error': 'Failed to update device'}, status=500)
 
 
+# DELETE by ID
+async def delete_device_by_id(request):
+    device_id = request.match_info.get('id')
+
+    try:
+        query = Device.delete().where(Device.id == device_id)
+        deleted = query.execute()
+
+        if deleted:
+            return web.json_response({'message': f'Device with id {device_id} was successfully deleted'})
+        else:
+            return web.json_response({'error': 'Device not found'}, status=404)
+
+    except Exception as e:
+        return web.json_response({'error': 'Failed to delete device: {}'.format(str(e))}, status=500)
+
+
 # ROUTERS
 app.router.add_get('/', hello)
 
@@ -230,6 +247,7 @@ app.router.add_get('/devices/', get_all_devices)
 app.router.add_get('/devices/{id}/', get_device_by_id)
 app.router.add_put('/devices/{id}/', put_device_by_id)
 app.router.add_patch('/devices/{id}/', patch_device_by_id)
+app.router.add_delete('/devices/{id}/', delete_device_by_id)
 
 
 # RUN
