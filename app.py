@@ -1,9 +1,12 @@
 import logging
 import os
+from typing import Any, Dict
 
 from aiohttp import web
+from aiohttp.web import Application, Request, Response
 from dotenv import load_dotenv
 from peewee import *
+from peewee import CharField, ForeignKeyField, Model, PostgresqlDatabase
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -27,7 +30,7 @@ class ApiUser(Model):
 
     class Meta:
         database = db
-        table_name = 'api_user'
+        table_name: str = 'api_user'
 
 
 class Location(Model):
@@ -35,7 +38,7 @@ class Location(Model):
 
     class Meta:
         database = db
-        table_name = 'location'
+        table_name: str = 'location'
 
 
 class Device(Model):
@@ -48,10 +51,10 @@ class Device(Model):
 
     class Meta:
         database = db
-        table_name = 'device'
+        table_name: str = 'device'
 
     @staticmethod
-    def current_device_info(device):
+    def current_device_info(device: dict[str, int | str]) -> Response[dict[str, int | str]]:
         return web.json_response({
             'id': device.id,
             'name': device.name,
@@ -67,13 +70,13 @@ app = web.Application()
 
 
 # TEST
-async def hello(request):
+async def hello(request) -> Response[str]:
     return web.Response(text='Server is running!')
 
 
 # POST (CREATE)
-async def post_device(request):
-    data = await request.json()
+async def post_device(request) -> Response[dict[str, int | str]]:
+    data: dict[str, int | str] = await request.json()
     logger.info('Received data to create device: %s', data)
 
     try:
@@ -86,7 +89,7 @@ async def post_device(request):
         if not ApiUser.select().where(ApiUser.id == data['api_user_id']).exists():
             raise ValueError('Invalid api_user_id')
 
-        device = Device.create(
+        device: dict[str, int | str] = Device.create(
             name=data['name'],
             device_type=data['device_type'],
             login=data['login'],
@@ -94,25 +97,25 @@ async def post_device(request):
             location=data['location_id'],
             api_user=data['api_user_id']
         )
-
         logger.info('Device created successfully: %s', device.id)
         return Device.current_device_info(device)
 
     except ValueError as e:
         logger.error('Error creating device: %s', str(e))
         return web.json_response({'error': str(e)}, status=400)
+
     except Exception as e:
         logger.error('Failed to create device: %s', str(e))
         return web.json_response({'error': 'Failed to create device: {}'.format(str(e))}, status=500)
 
 
 # GET ALL (READ)
-async def get_all_devices(request):
+async def get_all_devices(request) -> Response[dict[str, int | str]]:
     logger.info('Retrieving all devices')
 
     try:
         devices = Device.select()
-        devices_list = [
+        devices_list: list[dict[str, int | str]] = [
             {
                 'id': device.id,
                 'name': device.name,
@@ -133,12 +136,12 @@ async def get_all_devices(request):
 
 
 # GET by ID (READ)
-async def get_device_by_id(request):
-    device_id = request.match_info.get('id')
+async def get_device_by_id(request) -> Response[dict[str, int | str]]:
+    device_id: int = request.match_info.get('id')
     logger.info('Retrieving device by id: %s', device_id)
 
     try:
-        device = Device.get(Device.id == device_id)
+        device: int = Device.get(Device.id == device_id)
         logger.info('Device retrieved: %s', device.id)
         return Device.current_device_info(device)
 
@@ -148,9 +151,9 @@ async def get_device_by_id(request):
 
 
 # PUT by ID (major-UPDATE)
-async def put_device_by_id(request):
-    device_id = request.match_info.get('id')
-    data = await request.json()
+async def put_device_by_id(request) -> Response[dict[str, int | str]]:
+    device_id: int = request.match_info.get('id')
+    data: dict[str, int | str] = await request.json()
     logger.info('Updating device %s with data: %s', device_id, data)
 
     try:
@@ -163,7 +166,7 @@ async def put_device_by_id(request):
         if not ApiUser.select().where(ApiUser.id == data['api_user_id']).exists():
             raise ValueError('Invalid api_user_id')
 
-        device_query = Device.update(
+        device_query: dict[str, int | str] = Device.update(
             name=data['name'],
             device_type=data['device_type'],
             login=data['login'],
@@ -171,10 +174,10 @@ async def put_device_by_id(request):
             location=data['location_id'],
             api_user=data['api_user_id']
         ).where(Device.id == device_id)
-        updated = device_query.execute()
+        updated: dict[str, int | str] = device_query.execute()
 
         if updated:
-            updated_device = Device.get(Device.id == device_id)
+            updated_device: int = Device.get(Device.id == device_id)
             logger.info('Device updated successfully: %s', device_id)
 
             return Device.current_device_info(updated_device)
@@ -192,13 +195,13 @@ async def put_device_by_id(request):
 
 
 # PATCH by ID (minor-UPDATE)
-async def patch_device_by_id(request):
-    device_id = request.match_info.get('id')
-    data = await request.json()
+async def patch_device_by_id(request) -> Response[dict[str, int | str]]:
+    device_id: int = request.match_info.get('id')
+    data: dict[str, int | str] = await request.json()
     logger.info('Patching device %s with data: %s', device_id, data)
 
     try:
-        updates = {}
+        updates: dict = {}
 
         if 'name' in data:
             updates['name'] = data['name']
@@ -226,11 +229,11 @@ async def patch_device_by_id(request):
             logger.warning('No fields to update for device: %s', device_id)
             return web.json_response({'error': 'No fields to update'}, status=400)
 
-        query = Device.update(**updates).where(Device.id == device_id)
+        query: dict[str, int | str] = Device.update(**updates).where(Device.id == device_id)
         updated = query.execute()
 
         if updated:
-            updated_device = Device.get(Device.id == device_id)
+            updated_device: dict[str, int | str] = Device.get(Device.id == device_id)
             logger.info('Device patched successfully: %s', device_id)
             return Device.current_device_info(updated_device)
         else:
@@ -247,13 +250,13 @@ async def patch_device_by_id(request):
 
 
 # DELETE by ID
-async def delete_device_by_id(request):
-    device_id = request.match_info.get('id')
+async def delete_device_by_id(request) -> Response[dict[str, int | str]]:
+    device_id: int = request.match_info.get('id')
     logger.info('Deleting device by id: %s', device_id)
 
     try:
-        query = Device.delete().where(Device.id == device_id)
-        deleted = query.execute()
+        query: dict[str, int | str] = Device.delete().where(Device.id == device_id)
+        deleted: dict[str, int | str] = query.execute()
 
         if deleted:
             logger.info('Device deleted successfully: %s', device_id)
