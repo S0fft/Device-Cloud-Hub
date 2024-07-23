@@ -281,8 +281,18 @@ app.router.add_patch('/devices/{id}/', patch_device_by_id)
 app.router.add_delete('/devices/{id}/', delete_device_by_id)
 
 
+def create_tables():
+    with db.connection_context():
+        if not db.get_tables():
+            db.create_tables([ApiUser, Location, Device])
+            print("Tables created successfully")
+        else:
+            print("Tables already exist")
+
+
 # RUN
 if __name__ == '__main__':
+    create_tables()
     db.connect()
     logger.info('Starting server at http://127.0.0.1:8080')
     web.run_app(app, host='127.0.0.1', port=8080)
