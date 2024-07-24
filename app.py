@@ -280,18 +280,45 @@ app.router.add_patch('/devices/{id}/', patch_device_by_id)
 app.router.add_delete('/devices/{id}/', delete_device_by_id)
 
 
-def create_tables():
+# DB-SETUP
+def db_setup() -> None:
+    api_user1 = api_user2 = None
+    location1 = location2 = None
+
     with db.connection_context():
-        if not db.get_tables():
-            db.create_tables([ApiUser, Location, Device])
-            print("Tables created successfully")
-        else:
-            print("Tables already exist")
+        logger.info("Checking if tables exist...")
+
+        if not ApiUser.table_exists():
+            logger.info("ApiUser table does not exist, creating...")
+            db.create_tables([ApiUser])
+            api_user1, created = ApiUser.get_or_create(name='User1', email='user1@example.com', password='password1')
+            api_user2, created = ApiUser.get_or_create(name='User2', email='user2@example.com', password='password2')
+
+        if not Location.table_exists():
+            logger.info("Location table does not exist, creating...")
+            db.create_tables([Location])
+            location1, created = Location.get_or_create(name='Location1')
+            location2, created = Location.get_or_create(name='Location2')
+
+        if not Device.table_exists():
+            logger.info("Device table does not exist, creating...")
+            db.create_tables([Device])
+
+        logger.info("Tables checked/created successfully!")
+
+        if api_user1 and api_user2:
+            logger.info("Initial data created successfully: Users and Locations.")
+            logger.info(f"Created ApiUser: {api_user1.id}, {api_user1.name}")
+            logger.info(f"Created ApiUser: {api_user2.id}, {api_user2.name}")
+
+        if location1 and location2:
+            logger.info(f"Created Location: {location1.id}, {location1.name}")
+            logger.info(f"Created Location: {location2.id}, {location2.name}")
 
 
-# RUN
+# RUN - If you want strat local develop - choice everywhere *Local*, if wont start project in Docker - choice *Docker*
 if __name__ == '__main__':
-    create_tables()
     db.connect()
-    logger.info('Starting server at http://127.0.0.1:8080')
-    web.run_app(app, host='127.0.0.1', port=8080)
+    db_setup()
+    web.run_app(app, host="0.0.0.0", port=8080)  # Docker
+    # web.run_app(app, host='127.0.0.1', port=8080)  # Local
