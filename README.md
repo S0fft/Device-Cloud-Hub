@@ -14,7 +14,7 @@ And also other small libraries specified in requirements.txt
 ## Deployment with Docker
 In this section, we will deploy the project on PC using Docker and Docker Compose.
 
-### Cloning a project from GitHub
+### - Cloning a project from GitHub
 Create a root directory on your computer, then open it in your code editor or terminal.
 <br>
 Next, write this command into the command line:
@@ -23,14 +23,14 @@ git clone https://github.com/S0fft/Global-Mind-Associated-Task.git .
 ```
 You will see the project files appear in your directory.
 
-### Running Docker Desktop and Docker Compose
+### - Running Docker Desktop and Docker Compose
 Afterwards, launch the already installed Docker Desktop. Next, while it is running, you can return to the editor or terminal and enter the following command in the terminal:
 ```powershell
 docker-compose up --build
 ```
 This command "collects and runs all the code", allowing you to interact with the project through a browser.
 
-### Check by Port
+### - Check by Port
 Now the project is already running on your computer, and is available on port 8000.
 Go to this address to open it:
 ```powershell
@@ -38,7 +38,7 @@ http://localhost:8000/
 ```
 Thus, we have run the project locally on computer.
 
-### Functionality overview
+### - Functionality overview
 Next, let's look at the functionality of this small project. Implemented CRUD keeping REST architecture in mind.
 The goal of the assignment was to implement CRUD for Devices, which was done.
 <br>
@@ -57,7 +57,17 @@ http://localhost:8000/devices/{id}/
 This route supports: GET (by ID) to get the item, PUT for major update, PATCH for minor update, DELETE - to completely remove the item.
 The routes follow REST architecture.
 
-### Recommendations For Improvement
+***Important Note: After deploying a project on a computer, the database is empty, therefore, to retrieve devices via the API, you must create them using the POST method, respecting all database fields. Otherwise, you will receive empty JSON!***
+
+### - Working With Postman
+
+You can use all of the above addresses in Postman (or other similar tools) by sending requests with different methods (GET, POST, PUT, PATCH, DELETE). This gives you a full opportunity to test the API. <br>
+
+As mentioned before, you can run this project in the browser, but in this case, you will not be able to make POST, PUT, PATCH and DELETE requests. This is because a standard browser, without plugins, does not provide such capabilities when working with Aiohttp. <br>
+
+Therefore, it is highly recommended to use Postman.
+
+### - Recommendations For Improvement
 This Aiohttp based API is asynchronous, but it does not take full advantage of it's capabilities due to the synchronous use of the Peewee ORM. To take full advantage of asynchrony, we must use an asynchronous ORM such as Tortoise-ORM or GINO. <br>
 
 Even though all functions in the code are defined as asynchronous (async def), they call synchronous Peewee ORM methods to work with the database. This blocks the main thread of execution while the database executes queries, which violates the core principle of asynchronous programming - not to block the thread of execution. <br>
@@ -72,12 +82,12 @@ These commands will help you deploy the project locally (without Docker).
 
 ## <p align="center">Windows</p>
 
-### Stack Installing
+### - Stack Installing
 To begin, install: [Python](https://www.python.org/downloads/) | [PostgreSQL](https://www.postgresql.org/) <br> Links are provided to the latest versions of the tools.
 <br>
 
-### Cloning a Project From GitHub
-Create a root directory on your computer, then open it in your code editor or terminal.
+### - Cloning a Project From GitHub
+All the same, сreate a root directory on your computer, then open it in your code editor or terminal.
 <br>
 Next, write this command into the command line:
 ```powershell
@@ -85,7 +95,7 @@ git clone https://github.com/S0fft/Global-Mind-Associated-Task.git .
 ```
 You will see the project files appear in your directory. After, continue to enter the following commands.
 
-### Virtual Environment
+### - Virtual Environment
 Create virtual environment:
 ```powershell
 python -m venv .venv
@@ -97,7 +107,7 @@ And activate it:
 .venv\Scripts\Activate
 ```
 
-### Requirements
+### - Requirements
 Next, install packages:
 
 ```powershell
@@ -113,7 +123,7 @@ Load data from fixture for devices
 code
 ``` -->
 
-### Server Rise
+### - Server Rise
 Then, run server:
 ```powershell
 python app.py
@@ -126,7 +136,7 @@ python app.py
 These commands do the same thing as described above, only on UNIX systems.
 <br>
 
-### Virtual Environment
+### - Virtual Environment
 ```bash
 python3 -m venv ../venv
 ```
@@ -135,7 +145,7 @@ python3 -m venv ../venv
 source ../venv/bin/activate
 ```
 
-### Requirements
+### - Requirements
 ```bash
 pip install --upgrade pip
 ```
@@ -148,7 +158,7 @@ pip install -r requirements.txt
 code
 ``` -->
 
-### Server Rise
+### - Server Rise
 ```bash
 python3 app.py
 ```
