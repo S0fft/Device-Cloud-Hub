@@ -24,7 +24,7 @@ git clone https://github.com/S0fft/Global-Mind-Associated-Task.git .
 You will see the project files appear in your directory.
 
 ### Running Docker Desktop and Docker Compose
-Afterwards, launch the already installed Docker Desktop. Next running it, you can return to the editor or terminal and enter the following command in the terminal:
+Afterwards, launch the already installed Docker Desktop. Next, while it is running, you can return to the editor or terminal and enter the following command in the terminal:
 ```powershell
 docker-compose up --build
 ```
@@ -36,7 +36,7 @@ Go to this address to open it:
 ```powershell
 http://localhost:8000/
 ```
-Thus, we have run the project locally on your computer.
+Thus, we have run the project locally on computer.
 
 ### Functionality overview
 Next, let's look at the functionality of this small project. Implemented CRUD keeping REST architecture in mind.
@@ -54,7 +54,7 @@ This route supports: GET (All Devices) and POST (the request body must contain a
 ```powershell
 http://localhost:8000/devices/{id}/
 ```
-This route supports: GET (by ID) to get item, PUT to major update, PATCH to minor update, DELETE - to complete remove item.
+This route supports: GET (by ID) to get the item, PUT for major update, PATCH for minor update, DELETE - to completely remove the item.
 The routes follow REST architecture.
 
 ### Recommendations For Improvement
