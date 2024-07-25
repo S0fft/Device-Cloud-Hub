@@ -95,6 +95,25 @@ These commands will help you deploy the project locally. <br>
  
  ***Important Note: The project is configured to work with Docker. If you use this deployment approach, you need to change the configuration in the .env and app.py files before starting the server. Specifically, you should: Uncomment the necessary commands that are already commented out and replace mutually exclusive lines as needed. These lines are marked in the code. <br> Otherwise, you will receive an error!*** <br>
 
+### Example of Lines of Code That Need to Be Changed (as shown below)
+app.py:
+```python
+if __name__ == '__main__':
+    db.connect()
+    db_setup()
+    # web.run_app(app, host="0.0.0.0", port=8080)  # Docker - MUST BE COMMENTED
+    web.run_app(app, host='127.0.0.1', port=8080)  # Local - MUST BE UNCOMMENTED
+```
+
+.env:
+```python
+DB_NAME=gma_task
+DB_USER=postgres
+DB_PASSWORD=admin
+# DB_HOST=db # Docker - MUST BE COMMENTED
+DB_HOST=localhost # Local - MUST BE UNCOMMENTED
+DB_PORT=5432
+```
 ## <p align="center">Windows</p>
 
 ### - Stack Installing
