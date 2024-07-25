@@ -2,7 +2,7 @@
 #### Devices CRUD — CSR (API) GMA-Test-Task-Project on Aiohttp
 
 #### Stack:
- - Pyhton
+ - Python
  - Aiohttp
  - PostgreSQL
  - Peewee
@@ -56,6 +56,13 @@ http://localhost:8000/devices/{id}/
 ```
 This route supports: GET (by ID) to get item, PUT to major update, PATCH to minor update, DELETE - to complete remove item.
 The routes follow REST architecture.
+
+### Recommendations For Improvement
+This Aiohttp based API is asynchronous, but it does not take full advantage of it's capabilities due to the synchronous use of the Peewee ORM. To take full advantage of asynchrony, we must use an asynchronous ORM such as Tortoise-ORM or GINO. <br>
+
+Even though all functions in the code are defined as asynchronous (async def), they call synchronous Peewee ORM methods to work with the database. This blocks the main thread of execution while the database executes queries, which violates the core principle of asynchronous programming - not to block the thread of execution. <br>
+
+To improve our code, we can use an asynchronous ORM such as Tortoise-ORM, which fully supports asynchronous operations.
 
 ---
 
