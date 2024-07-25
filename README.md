@@ -14,7 +14,7 @@ And also other small libraries specified in requirements.txt
 ## Deployment with Docker
 In this section, we will deploy the project on PC using Docker and Docker Compose.
 
-### - Cloning a project from GitHub
+### - Cloning a Project from GitHub
 Create a root directory on your computer, then open it in your code editor or terminal.
 <br>
 Next, write this command into the command line:
@@ -38,7 +38,7 @@ http://localhost:8000/
 ```
 Thus, we have run the project locally on computer.
 
-### - Functionality overview
+### - Functionality Overview
 Next, let's look at the functionality of this small project. Implemented CRUD keeping REST architecture in mind.
 The goal of the assignment was to implement CRUD for Devices, which was done.
 <br>
@@ -58,6 +58,18 @@ This route supports: GET (by ID) to get the item, PUT for major update, PATCH fo
 The routes follow REST architecture.
 
 ***Important Note: After deploying a project on a computer, the database is empty, therefore, to retrieve devices via the API, you must create them using the POST method, respecting all database fields. Otherwise, you will receive empty JSON!***
+
+#### Example of a POST Request
+```json
+{
+    "name": "Smart Thermostat",
+    "device_type": "Thermostat",
+    "login": "thermo_01",
+    "password": "securePassword123",
+    "location_id": 2,
+    "api_user_id": 1
+}
+```
 
 ### - Working With Postman
 
