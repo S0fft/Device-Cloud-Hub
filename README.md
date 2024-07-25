@@ -90,7 +90,10 @@ To improve our code, we can use an asynchronous ORM such as Tortoise-ORM, which 
 
 <details>
 <summary><h3> Local Deployment Without Docker </h3></summary>
-These commands will help you deploy the project locally (without Docker).
+These commands will help you deploy the project locally. <br>
+<br>
+ 
+ ***Important Note: The project is configured to work with Docker. If you use this deployment approach, you need to change the configuration in the .env and app.py files before starting the server. Specifically, you should: Uncomment the necessary commands that are already commented out and replace mutually exclusive lines as needed. These lines are marked in the code. <br> Otherwise, you will receive an error!*** <br>
 
 ## <p align="center">Windows</p>
 
@@ -123,7 +126,7 @@ And activate it:
 Next, install packages:
 
 ```powershell
-pip install --upgrade pip
+python.exe -m pip install --upgrade pip
 ```
 ```powershell
 pip install -r requirements.txt
