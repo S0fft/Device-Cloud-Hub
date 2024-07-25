@@ -167,7 +167,7 @@ python app.py
 <!-- ---------------------------------------------- -->
 
 ## <p align="center">UNIX Systems</p>
-These commands do the same thing as described above, only on UNIX systems.
+These commands do the same thing as described above, only on UNIX systems. <br> Before this, the code must be modified as indicated in the note above!
 <br>
 
 ### - Virtual Environment
@@ -181,10 +181,10 @@ source ../venv/bin/activate
 
 ### - Requirements
 ```bash
-pip install --upgrade pip
+pip3 install --upgrade pip
 ```
 ```bash
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 <!-- ### Fixtures
