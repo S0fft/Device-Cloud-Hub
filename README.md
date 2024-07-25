@@ -95,7 +95,7 @@ These commands will help you deploy the project locally. <br>
  
  ***Important Note: The project is configured to work with Docker. If you use this deployment approach, you need to change the configuration in the .env and app.py files before starting the server. Specifically, you should: Uncomment the necessary commands that are already commented out and replace mutually exclusive lines as needed. These lines are marked in the code. <br> Otherwise, you will receive an error!*** <br>
 
-### Example of Lines of Code That Need to Be Changed (as shown below)
+### - Example of Lines of Code That Need to Be Changed (as shown below)
 app.py:
 ```python
 if __name__ == '__main__':
@@ -114,6 +114,19 @@ DB_PASSWORD=admin
 DB_HOST=localhost # Local - MUST BE UNCOMMENTED
 DB_PORT=5432
 ```
+### - Routes in Local Development Without Docker
+In this approach, the service routes are different, they are listed below.
+<br>
+#### Create, Read (GET / POST)
+```powershell
+http://127.0.0.1:8080/devices/
+```
+#### Read, Update, Delete (GET / PUT / PATCH / DELETE)
+```powershell
+http://127.0.0.1:8080/devices/{id}/
+```
+The functionality is the same, the HOST and PORT of the service are just different.
+
 ## <p align="center">Windows</p>
 
 ### - Stack Installing
