@@ -1,5 +1,5 @@
-# Global-Mind-Associated-Task
-#### Devices CRUD — CSR (API) GMA-Test-Task-Project on Aiohttp
+# Device-Cloud-Hub
+#### Devices-API-Storage — IoT Project on Aiohttp [GMA]
 
 #### Stack:
  - Python
@@ -19,7 +19,7 @@ Create a root directory on your computer, then open it in your code editor or te
 <br>
 Next, write this command into the command line:
 ```powershell
-git clone https://github.com/S0fft/Global-Mind-Associated-Task.git .
+git clone https://github.com/S0fft/Device-Cloud-Hub.git .
 ```
 You will see the project files appear in your directory.
 
@@ -138,7 +138,7 @@ All the same, сreate a root directory on your computer, then open it in your co
 <br>
 Next, write this command into the command line:
 ```powershell
-git clone https://github.com/S0fft/Global-Mind-Associated-Task.git .
+git clone https://github.com/S0fft/Device-Cloud-Hub.git .
 ```
 You will see the project files appear in your directory. After, continue to enter the following commands.
 
