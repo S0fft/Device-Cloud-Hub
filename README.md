@@ -9,7 +9,7 @@
  - Docker
  - Pytest
 
-And also other small libraries specified in requirements.txt
+And other small libraries specified in `requirements.txt`.
 
 ## Deployment with Docker
 In this section, we will deploy the project on PC using Docker and Docker Compose.
