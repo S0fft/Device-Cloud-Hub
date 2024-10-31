@@ -9,7 +9,7 @@
  - Docker
  - Pytest
 
-And other small libraries specified in `requirements.txt`.
+Additional libraries are specified in the `requirements.txt` file.
 
 ## Deployment with Docker
 In this section, we will deploy the project on PC using Docker and Docker Compose.
@@ -129,7 +129,7 @@ The functionality is the same, the HOST and PORT of the service are just differe
 
 ## <p align="center">Windows</p>
 
-### - Stack Installing
+### - Installing the Stack
 To begin, install: [Python](https://www.python.org/downloads/) | [PostgreSQL](https://www.postgresql.org/) <br> Links are provided to the latest versions of the tools.
 <br>
 
@@ -142,8 +142,8 @@ git clone https://github.com/S0fft/Device-Cloud-Hub.git .
 ```
 You will see the project files appear in your directory. After, continue to enter the following commands.
 
-### - Virtual Environment
-Create virtual environment:
+### - Creating a Virtual Environment
+Create a virtual environment:
 ```powershell
 python -m venv .venv
 ```
@@ -154,7 +154,7 @@ And activate it:
 .venv\Scripts\Activate
 ```
 
-### - Requirements
+### - Installing the Requirements
 Next, install packages:
 
 ```powershell
@@ -170,7 +170,7 @@ Load data from fixture for devices
 code
 ``` -->
 
-### - Server Rise
+### - Running the Server
 Then, run server:
 ```powershell
 python app.py
@@ -183,7 +183,7 @@ python app.py
 These commands do the same thing as described above, only on UNIX systems. <br> Before this, the code must be modified as indicated in the note above!
 <br>
 
-### - Virtual Environment
+### - Virtual a Environment
 ```bash
 python3 -m venv ../venv
 ```
@@ -192,7 +192,7 @@ python3 -m venv ../venv
 source ../venv/bin/activate
 ```
 
-### - Requirements
+### - Installing the Requirements
 ```bash
 pip3 install --upgrade pip
 ```
@@ -205,7 +205,7 @@ pip3 install -r requirements.txt
 code
 ``` -->
 
-### - Server Rise
+### - Running the Server
 ```bash
 python3 app.py
 ```
