@@ -1,6 +1,8 @@
 # Device-Cloud-Hub
 #### Devices-API-Storage — IoT Project on Aiohttp [GMA]
 
+The application provides a cloud-based solution for managing IoT devices, offering a reliable and scalable API for interacting with these devices. This project includes CRUD functionality for device management, enabling users to add, update, retrieve, and delete devices, thus supporting their entire lifecycle. The application is deployed with Docker, ensuring ease of installation and portability, as well as a stable environment for interacting with the PostgreSQL database.
+
 #### Stack:
  - Python
  - Aiohttp
