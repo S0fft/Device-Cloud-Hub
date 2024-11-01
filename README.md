@@ -11,7 +11,7 @@
 
 Additional libraries are specified in the `requirements.txt` file.
 
-## Deployment with Docker
+## Project Setup with Docker
 In this section, we will deploy the project on PC using Docker and Docker Compose.
 
 ### - Cloning a Project from GitHub
@@ -89,7 +89,7 @@ To improve our code, we can use an asynchronous ORM such as Tortoise-ORM, which 
 ---
 
 <details>
-<summary><h3> Local Deployment Without Docker </h3></summary>
+<summary><h3> Project Setup Without Docker </h3></summary>
 These commands will help you deploy the project locally. <br>
 <br>
  
